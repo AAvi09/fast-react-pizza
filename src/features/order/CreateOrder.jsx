@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { redirect } from "react-router-dom";
 import { Form } from "react-router-dom";
 
 // https://uibakery.io/regex-library/phone-number
@@ -39,7 +40,7 @@ function CreateOrder() {
     <div>
       <h2>Ready to order? Let's go!</h2>
 
-      <Form method="POST">
+      <Form method="POST" actions={"/order/new"}>
         <div>
           <label>First Name</label>
           <input type="text" name="customer" required />
@@ -79,6 +80,9 @@ function CreateOrder() {
 }
 export async function action({ request }) {
   const formData = await request.formData();
-  console.log("Form data", formData);
+  const data = Object.fromEntries(formData);
+  console.log(data);
+
+  return null;
 }
 export default CreateOrder;
