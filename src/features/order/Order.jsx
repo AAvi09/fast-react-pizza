@@ -85,7 +85,7 @@ function Order() {
 }
 
 export async function loader({ params }) {
-  const orderId = params.id;
+  const orderId = params.orderId;
   const order = await getOrder(orderId);
   return order;
 }
