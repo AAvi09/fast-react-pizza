@@ -13,7 +13,7 @@ const AppLayout = () => {
       <Header />
 
       <main>
-        <h1>content</h1>
+        <h1>place your order</h1>
         <Outlet />
       </main>
 
