@@ -9,6 +9,7 @@ import CreateOrder, {
   action as createOrderAction,
 } from "./features/order/CreateOrder";
 import AppLayout from "./ui/AppLayout";
+import "./index.css";
 const router = createBrowserRouter([
   {
     element: <AppLayout />,
