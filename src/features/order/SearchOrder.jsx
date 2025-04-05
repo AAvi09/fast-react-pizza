@@ -1,8 +1,9 @@
 import { useState, useNavigate } from "react";
+import { useNavigation } from "react-router-dom";
 
 const Searchorder = () => {
   const [query, setQuery] = useState(" ");
-  const navigate = useNavigate();
+  const navigate = useNavigation();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -20,3 +21,5 @@ const Searchorder = () => {
     </form>
   );
 };
+
+export default Searchorder;

@@ -15,7 +15,7 @@ const AppLayout = () => {
 
       <main>
         <h1>place your order</h1>
-        <Home />
+        {/* <Home /> */}
         <Outlet />
       </main>
 

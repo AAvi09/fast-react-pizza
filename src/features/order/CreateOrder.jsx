@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { redirect, useActionData } from "react-router-dom";
 import { Form } from "react-router-dom";
 import { createOrder } from "../../services/apiRestaurant";
