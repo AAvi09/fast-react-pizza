@@ -76,13 +76,14 @@ function CreateOrder() {
               type="text"
               name="address"
               required
-              className="bg-white border border-stone-300 rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+              className="bg-white border border-stone-300 rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent w-full transition-all duration-300"
             />
           </div>
         </div>
 
         <div>
           <input
+            className="h-6 w-6 accent-yellow-400 focus:outline-none focus:ring focus:ring-yellow-500 focus:ring-offset-2"
             type="checkbox"
             name="priority"
             id="priority"
@@ -94,7 +95,7 @@ function CreateOrder() {
 
         <div>
           <input type="hidden" name="cart" value={JSON.stringify(cart)} />
-          <button disabled={isSubmitting}>
+          <button disabled={isSubmitting} className="input" type="submit">
             {isSubmitting ? "Placing order..." : "Order now"}
           </button>
         </div>
