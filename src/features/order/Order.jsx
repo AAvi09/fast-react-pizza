@@ -56,18 +56,24 @@ function Order() {
   const deliveryIn = calcMinutesLeft(estimatedDelivery);
 
   return (
-    <div>
-      <div>
-        <h2>Status</h2>
+    <div className="px-4 py-6 space-y-8">
+      <div className="flex items-center justify-between flex-wrap gap-4">
+        <h2 className="text-xl font-semibold">Order # {id} Status</h2>
 
-        <div>
-          {priority && <span>Priority</span>}
-          <span>{status} order</span>
+        <div className="space-x-2">
+          {priority && (
+            <span className="rounded-full bg-red-500 px-3 py-1 text-sm font-semibold uppercase text-red-50 tracking-wide ">
+              Priority
+            </span>
+          )}
+          <span className="rounded-full bg-green-500 px-3 py-1 text-sm font-semibold uppercase text-green-50 tracking-wide ">
+            {status} order
+          </span>
         </div>
       </div>
 
-      <div>
-        <p>
+      <div className="flex items-center justify-between flex-wrap gap-4 bg-stone-200 px-6 py-5 rounded-lg">
+        <p className="font-medium">
           {deliveryIn >= 0
             ? `Only ${calcMinutesLeft(estimatedDelivery)} minutes left 😃`
             : "Order should have arrived"}
