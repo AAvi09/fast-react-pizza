@@ -6,6 +6,7 @@ import {
   formatCurrency,
   formatDate,
 } from "../../utils/helpers";
+import OrderItem from "./OrderItem";
 
 const order = {
   id: "ABCDEF",
@@ -78,13 +79,25 @@ function Order() {
             ? `Only ${calcMinutesLeft(estimatedDelivery)} minutes left 😃`
             : "Order should have arrived"}
         </p>
-        <p>(Estimated delivery: {formatDate(estimatedDelivery)})</p>
+        <p className="text-xs text-stone-500">
+          (Estimated delivery: {formatDate(estimatedDelivery)})
+        </p>
       </div>
 
-      <div>
-        <p>Price pizza: {formatCurrency(orderPrice)}</p>
+      <ul>
+        {cart.map((item) => (
+          <OrderItem />
+        ))}
+      </ul>
+
+      <div className="space-y-2 bg-stone-200 px-6 py-5">
+        <p className="text-sm font-medium text-stone-600 ">
+          Price pizza: {formatCurrency(orderPrice)}
+        </p>
         {priority && <p>Price priority: {formatCurrency(priorityPrice)}</p>}
-        <p>To pay on delivery: {formatCurrency(orderPrice + priorityPrice)}</p>
+        <p className="font-bold">
+          To pay on delivery: {formatCurrency(orderPrice + priorityPrice)}
+        </p>
       </div>
     </div>
   );
