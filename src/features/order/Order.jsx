@@ -14,7 +14,10 @@ const order = {
   phone: "123456789",
   address: "Arroios, Lisbon , Portugal",
   priority: true,
-  estimatedDelivery: "2027-04-25T10:00:00",
+  estimatedDelivery: new Date(
+    new Date().getTime() + 1000 * 60 * 30
+  ).toISOString(),
+  status: "preparing your",
   cart: [
     {
       pizzaId: 7,
