@@ -3,12 +3,13 @@ import { Form } from "react-router-dom";
 import { createOrder } from "../../services/apiRestaurant";
 import { useNavigation } from "react-router-dom";
 import Button from "../../ui/Button";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { clearCart, getCart, getTotalCartPrice } from "../cart/CartSlice";
 import EmptyCart from "../cart/EmptyCart";
 import store from "../../store";
 import { useState } from "react";
 import { formatCurrency } from "../../utils/helpers";
+import { fetchAddress } from "../user/userSlice";
 
 // https://uibakery.io/regex-library/phone-number
 const isValidPhone = (str) =>
@@ -23,6 +24,8 @@ function CreateOrder() {
   const isSubmitting = navigation.state === "submitting";
 
   const formErrors = useActionData();
+  const dispatch = useDispatch();
+
   const cart = useSelector(getCart);
   const totalCartPrice = useSelector(getTotalCartPrice);
   const priorityPrice = withPriority ? totalCartPrice * 0.2 : 0;
@@ -31,6 +34,12 @@ function CreateOrder() {
   return (
     <div className="px-4 py-6">
       <h2 className="text-xl font-semibold mb-8">Ready to order? Let's go!</h2>
+      <button
+        onClick={() => dispatch(fetchAddress())}
+        className="px-4 py-2 rounded-lg text-stone-700 bg-violet-100 hover:bg-violet-200 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2 transition-all duration-300 mb-5 cursor-pointer"
+      >
+        Get position
+      </button>
 
       <Form method="POST" actions={"/order/new"}>
         <div className="mb-5 flex flex-col  gap-2 sm:flex-row sm:items-center">
