@@ -19,7 +19,14 @@ const isValidPhone = (str) =>
 
 function CreateOrder() {
   const [withPriority, setWithPriority] = useState(false);
-  const username = useSelector((state) => state.user.username);
+  const {
+    username,
+    status: addressStatus,
+    position,
+    address,
+    error: errorAddress,
+  } = useSelector((state) => state.user);
+  const isLoadingAddress = addressStatus === "loading";
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
 
@@ -34,12 +41,16 @@ function CreateOrder() {
   return (
     <div className="px-4 py-6">
       <h2 className="text-xl font-semibold mb-8">Ready to order? Let's go!</h2>
-      <button
-        onClick={() => dispatch(fetchAddress())}
-        className="px-4 py-2 rounded-lg text-stone-700 bg-violet-100 hover:bg-violet-200 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2 transition-all duration-300 mb-5 cursor-pointer"
-      >
-        Get position
-      </button>
+      {!position.latitude && !position.longitude && (
+        <button
+          disabled={isLoadingAddress}
+          type="button"
+          onClick={() => dispatch(fetchAddress())}
+          className="px-4 py-2 rounded-lg text-stone-700 bg-violet-100 hover:bg-violet-200 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2 transition-all duration-300 mb-5 cursor-pointer"
+        >
+          Get position
+        </button>
+      )}
 
       <Form method="POST" actions={"/order/new"}>
         <div className="mb-5 flex flex-col  gap-2 sm:flex-row sm:items-center">
@@ -74,11 +85,19 @@ function CreateOrder() {
           <label className="sm:basis-40">Address</label>
 
           <input
+            disabled={isLoadingAddress}
+            defaultValue={address}
             type="text"
             name="address"
             required
             className="bg-white border border-stone-300 rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent w-full transition-all duration-300"
           />
+
+          {addressStatus === "error" && (
+            <p className="mt-2 bg-red-100 text-xs text-red-700 rounded-md p-2">
+              {errorAddress}
+            </p>
+          )}
         </div>
 
         <div className="mb-12 flex items-center gap-5">
@@ -97,7 +116,16 @@ function CreateOrder() {
 
         <div>
           <input type="hidden" name="cart" value={JSON.stringify(cart)} />
-          <Button disabled={isSubmitting} type="submit">
+          <input
+            type="hidden"
+            name="position"
+            value={
+              position.latitude && position.longitude
+                ? `${position.latitude}, ${position.longitude}`
+                : ""
+            }
+          />
+          <Button disabled={isSubmitting || isLoadingAddress} type="submit">
             {isSubmitting
               ? "Placing order..."
               : `Order now from ${formatCurrency(totalPrice)}`}
@@ -117,6 +145,8 @@ export async function action({ request }) {
     cart: JSON.parse(data.cart),
     priority: data.priority === "on",
   };
+
+  console.log(order);
   const errors = {};
   if (!isValidPhone(order.phone))
     errors.phone =
