@@ -106,7 +106,7 @@ function CreateOrder() {
             type="checkbox"
             name="priority"
             id="priority"
-            value={withPriority}
+            checked={withPriority}
             onChange={(e) => setWithPriority(e.target.checked)}
           />
           <label htmlFor="priority" className="font-medium">
@@ -138,7 +138,6 @@ function CreateOrder() {
 export async function action({ request }) {
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
-  console.log(data);
 
   const order = {
     ...data,
@@ -146,7 +145,6 @@ export async function action({ request }) {
     priority: data.priority === "on",
   };
 
-  console.log(order);
   const errors = {};
   if (!isValidPhone(order.phone))
     errors.phone =
